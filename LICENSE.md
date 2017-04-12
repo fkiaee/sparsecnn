@@ -1,9 +1,10 @@
+# License
 Each contributor holds copyright over their contributions to Caffe-Tensorflow. In particular:
-*Any included network model is provided under its original license.
-*Any portion derived from tensorflow is provided under its original license.
-*sparcecnn is provided under the MIT license, as specified below.
+* Any included network model is provided under its original license.
+* Any portion derived from tensorflow is provided under its original license.
+* sparcecnn is provided under the MIT license, as specified below.
 
-#The MIT License (MIT)
+# The MIT License (MIT)
 
 Copyright (c) 2016 Saumitro Dasgupta
 
