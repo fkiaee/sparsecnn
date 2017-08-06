@@ -5,11 +5,25 @@ This repository contains an implementation of the sparse convolutional neural ne
 
 ## Contents
 
-1. Python implementation of ADMM-based sparse CNN (ADMM.py)
-2. A module that constructs the network in network (NIN) graph in tensorflow and loads the pretrained weights (ADMMmodels.py)
-3. Utility functions for use with the ADMM.py. There are functions to load Cifar10 data and to apply norm-0 or norm-1 sparsity promoting penalty functions(ADMMutils.py)
-4. Pretraining of the network and saving .ckpt weights (pretraining.py) 
-5. Validation of the pretraind network or ADMM-based sparse network (validate.py)
+1. A module that constructs the graph of investiated models in tensorflow  (cifar_models.py and imagenet_models.py)
+2. Python implementation of ADMM-based sparse CNN (ADMM_cifar.py and ADMM_imagenet.py)
+* The function gets the path for loading pretrained weights and also the path for saving ADMM ckpt output results. If the result path contains previously saved ckpt files, it loads latest of them and continues training. otherwise it loads the pretrained weights and starts training.
+3. Utility functions for use with the ADMM algorithm. There are functions to load Cifar10 and imagenet data and to apply norm-0 or norm-1 sparsity promoting penalty functions(ADMMutils.py)
+4. Pretrained weights in ckpt format (pretrained folder) 
+4. Validation of the pretraind network or ADMM-based sparse network (validate_cifar.py and validate_imagenet.py)
+
+
+## Implementation Hints
+1. The name of the variables is consistent with the paper.
+    * The filters subject to sparse structural constraints are named *W_c*/*W_f* for convolutional/fully_connected layers and their    corresponding biases are named *b_c*/*b_f*. 
+    * *Gamma* is the dual variable (i.e., the Lagrange multiplier) and *F* is an additional variable to introduce an additional constraint *W - F = 0* giving rise to decoupling the objective function. 
+    * All the mentioned variable are added to *variable_dict* dictionary. 
+2. Dual variable, *Gamma*, and sparsity promoting variable, *F*, are updated manually and are not trained (trainable = False). These two set of variables are then included in the 'non_trainable_variables' collection to ask the saver to save their final updated values.
+3. updating equations (9) and (10) corresponding to the norm-1 or norm-0 sparsity promoting steps are implemented in *block_shrinkage* and *block_truncate* functions, respectively. The sparse filter tensors and index of zero filters are passed to *F_new* and *zero_ind" operations, respectively.
+4. Stopping criterion for ADMM is investigated using non-trainable variables resF=||F_new-F|| and resWF=||F_new-W||. 
+5. *assign_F* operations are then used to update *F* variable with its updated value *F_new*.
+6. Similarly, *assign_Gammas* operations are used to implement the updating equation (6). 
+7. *zero_map* placeholders are tensors of all-zero/all-one filters which are built based on the *zero_ind* operations. The *zero_map* placeholders are used to fix sparsity patterns of weights during finetuning step.
 
 ## Usage
 
@@ -17,7 +31,8 @@ Make sure you're using the tensorflow 0.9.0 version.
 
 1. Run pretrain.py to provide a pretrained initial weights for ADMM-based sparse algorithm.
 2. In order to validate the pretrain network (ACC = 82.3 %) execute:
+1. In order to apply ADMM-based sparse algorithm execute:
  python validate.py --model_id=0 --task=0 
-3. Run ADMM.py to apply ADMM-based sparse algorithm
+
 4. In order to validate the sparce network execute:
  python validate.py --model_id=0 --task=1
