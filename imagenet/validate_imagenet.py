@@ -77,7 +77,7 @@ accuracy = tf.reduce_mean(tf.cast(ispredcorrect, 'float'))
 zero_ind_dict= {};
 solpath['nnz']  = [max_mu_iteration*[0] for _ in range(len(layer_list))]; solpath['nz']  =  [max_mu_iteration*[0] for _ in range(len(layer_list))];
 solpath['mu']  = max_mu_iteration*[0]
-solpath['ACC_Polish_test'] = max_mu_iteration*[0]; 
+solpath['ACC_test'] = max_mu_iteration*[0]; 
 prod_val = 0; inputmaps = []; outputmaps = []
 for num_layer,id_layer in enumerate(layer_list):
     if layer_type[num_layer]=='c':
@@ -135,9 +135,7 @@ for chp_num , model_chp in enumerate(model_checkpoint):
             testPerf = float(solpath['correct'])/(solpath['start_point']);   
             print("test acuracy at each step",testPerf)
             if ((step + 1) == max_steps or step % ckp_write_period == 0) and step != 0:
-                #cost_test = solpath['sum_entropy']/solpath['start_point'] ;
-                #solpath['J_Polish_test'][mu_id] = cost_test
-                solpath['ACC_Polish_test'][mu_id] = testPerf 
+                solpath['ACC_test'][mu_id] = testPerf 
                 filename = os.path.join(ckpt_path,'%s_%s_validate.pkl'%(model_name,task_set[task]))
                 file1 = open(filename, 'wb')
                 pickle.dump(solpath,file1)
