@@ -18,8 +18,8 @@ This repository contains an implementation of the sparse convolutional neural ne
     * *Gamma* is the dual variable (i.e., the Lagrange multiplier) and *F* is an additional variable to introduce an additional constraint *W - F = 0* giving rise to decoupling the objective function. 
     * All the mentioned variable are added to *variable_dict* dictionary. 
 2. Dual variable, *Gamma*, and sparsity promoting variable, *F*, are updated manually and are not trained (trainable = False). These two set of variables are then included in the 'non_trainable_variables' collection to ask the saver to save their final updated values.
-3. updating equations (9) and (10) corresponding to the norm-1 or norm-0 sparsity promoting steps are implemented in *block_shrinkage* and *block_truncate* functions, respectively. The sparse filter tensors and index of zero filters are passed to *F_new* and *zero_ind* operations, respectively.
+3. Update equations (9) and (10) corresponding to the norm-1 or norm-0 sparsity promoting steps are implemented in *block_shrinkage* and *block_truncate* functions, respectively. The sparse filter tensors and index of zero filters are passed to *F_new* and *zero_ind* operations, respectively.
 4. Stopping criterion for ADMM is investigated using non-trainable variables resF=||F_new-F|| and resWF=||F_new-W||. 
-5. *assign_F* operations are then used to update *F* variable with its updated value *F_new*.
+5. Variable *F* is then updated with its updated value *F_new* using *assign_F* operations.
 6. Similarly, *assign_Gammas* operations are used to implement the updating equation (6). 
-7. *zero_map* placeholders are tensors of all-zero/all-one filters which are built based on the *zero_ind* operations. The *zero_map* placeholders are used to fix sparsity patterns of weights during finetuning step.
+7. Placeholders *zero_map* contains tensors of all-zero/all-one filter patterns which are built based on the *zero_ind* operations. The placeholders are used to fix sparsity patterns of weights during finetuning step.
