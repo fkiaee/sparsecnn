@@ -17,7 +17,7 @@ parser.add_argument('--model_id', default='0', type=int, help='The id number of 
 parser.add_argument('--sparsity_function_id', default='0', type=int, help='The id number of the sparsity penalty function: i.e. 0 -->l0-norm function and 1 --> l1-norm function')
 parser.add_argument('--data_path', default=os.path.realpath(os.path.join(os.path.dirname(__file__), '../')), help='Training data path')#'/media/disk/marc/cifar-10'
 parser.add_argument('--ckpt_path_pretrained', default= os.path.realpath(os.path.join(os.path.dirname(__file__), '../pretrained')), help='path for loading pretrained network') 
-parser.add_argument('--ckpt_path_ADMM', default= os.path.realpath(os.path.join(os.path.dirname(__file__), '../ADMM_results')), help=' path for saving ADMM ckpt output results') 
+parser.add_argument('--ckpt_path_ADMM', default= os.path.realpath(os.path.join(os.path.dirname(__file__), '../sparse_results')), help=' path for saving ADMM ckpt output results') 
 args = parser.parse_args()
 model_id = args.model_id; sparsity_function_id = args.sparsity_function_id;
 model_set = ['Caffenet']

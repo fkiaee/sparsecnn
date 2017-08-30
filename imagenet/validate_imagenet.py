@@ -23,7 +23,7 @@ parser.add_argument('--ckpt_path', default= 'None', help='Validation data path')
 #task=1: validate gradually pruned versions of the network (by increasing regularization mu at consecutive steps)  
 parser.add_argument('--task', default='0', type=int, help='Select to validate pretrained model or ADMM-based sparse model: i.e. 0 -->pretrained model or 1 --> ADMM sparse CNN')
 args = parser.parse_args()
-task = args.task; task_set = ['pretrained','results']
+task = args.task; task_set = ['pretrained','sparse_results']
 model_id = args.model_id
 model_set = ['Caffenet'];  test_data = 'val.csv'; 
 model_name = model_set[model_id]
