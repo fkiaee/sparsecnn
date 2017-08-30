@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import tensorflow as tf
-import ADMMutils
 import numpy as np
+import os
+import sys
+# Add the ADMMutils module to the import path
+sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), '../')))
+import ADMMutils
 def model_load(model_id,X,phase):
     variables_dict = {}; dictTrain = {}; dictTest = {}; placeholders_dict = {};  
     if model_id in [0]: 

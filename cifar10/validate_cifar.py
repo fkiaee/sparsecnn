@@ -23,10 +23,11 @@ parser.add_argument('--ckpt_path', default= 'None', help='Validation data path')
 #task=1: validate gradually pruned versions of the network (by increasing regularization mu at consecutive steps)  
 parser.add_argument('--task', default='0', type=int, help='Select to validate pretrained model or ADMM-based sparse model: i.e. 0 -->pretrained model or 1 --> ADMM sparse CNN')
 args = parser.parse_args()
-task = args.task; task_set = ['pretrained','results']
+task = args.task; task_set = ['pretrained','sparse_results']
 model_id = args.model_id
-model_set = ['nin']; 
+model_set = ['nin','nin_c3','nin_c3_lr']; 
 model_name = model_set[model_id]
+print(model_name)
 data_path = args.data_path;
 if (args.ckpt_path is 'None'):
     if task == 0:
@@ -50,11 +51,11 @@ min_fraction_of_examples_in_queue = 0.4; min_queue_examples = int(num_samples * 
 example_batch, label_batch = tf.train.batch([example, label], batch_size=batch_size)
 label_batch = tf.reshape(label_batch, [batch_size])
 # leatning_rate variable is just defined to have consistency with variables in training phase 
-NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 50000; NUM_EPOCHS_PER_DECAY = 350;
-num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / batch_size
-decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY); LEARNING_RATE_DECAY_FACTOR = 0.1 
-global_step = tf.Variable(0, trainable=False);starter_learning_rate = 0.1
-learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,decay_steps , LEARNING_RATE_DECAY_FACTOR , staircase=True)
+#NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 50000; NUM_EPOCHS_PER_DECAY = 350;
+#num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / batch_size
+#decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY); LEARNING_RATE_DECAY_FACTOR = 0.1 
+#global_step = tf.Variable(0, trainable=False);starter_learning_rate = 0.1
+#learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,decay_steps , LEARNING_RATE_DECAY_FACTOR , staircase=True)
 if task==0:
     max_mu_iteration = 1  #task=0 for validating unpruned original network (mu_id = 0)
 else:
